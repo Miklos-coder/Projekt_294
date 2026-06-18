@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trello Simple Tasks</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <section class="login-view" id="login-view">
+        <div class="login-box">
+            <h1>Trello Simple Tasks</h1>
+
+            <label for="api-key">API-Key</label>
+            <input type="text" id="api-key" placeholder="API-Key">
+
+            <label for="api-token">Token</label>
+            <input type="password" id="api-token" placeholder="Token">
+
+            <button id="btn-login" type="button">Login</button>
+            <p class="login-message" id="login-message" aria-live="polite"></p>
+        </div>
+    </section>
+
+    <section class="app-view hidden" id="app-view">
+        <header class="header">
+            <h1>Trello Simple Tasks</h1>
+            <button id="btn-logout" type="button">Abmelden</button>
+        </header>
+
+        <main class="layout">
+            <aside class="sidebar">
+                <h2>Menü</h2>
+                <button id="btn-overview" type="button">Übersicht</button>
+                <button id="btn-new-card" type="button">Neue Card</button>
+
+                <div class="board-box">
+                    <h3>Board</h3>
+                    <select id="board-select">
+                        <option>Board auswählen</option>
+                    </select>
+                </div>
+            </aside>
+
+            <section class="content">
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="Cards suchen">
+                    <button id="btn-search" type="button">Suchen</button>
+                </div>
+
+                <div class="card-list" id="card-list"></div>
+
+                <div class="pagination">
+                    <button id="btn-prev" type="button">Zurück</button>
+                    <span id="page-info">Bereit</span>
+                    <button id="btn-next" type="button">Weiter</button>
+                </div>
+            </section>
+
+            <section class="side-panel" id="side-panel">
+                <h2>Detailansicht</h2>
+
+                <div class="detail-box">
+                    <p>Card auswählen</p>
+                </div>
+
+                <form class="card-form hidden" id="card-form">
+                    <label for="card-title">Titel</label>
+                    <input type="text" id="card-title" placeholder="Titel">
+
+                    <label for="card-desc">Beschreibung</label>
+                    <textarea id="card-desc" placeholder="Beschreibung"></textarea>
+
+                    <label for="card-list-select">Liste</label>
+                    <select id="card-list-select"></select>
+
+                    <label for="card-due">Fälligkeitsdatum</label>
+                    <input type="date" id="card-due">
+
+                    <button type="submit">Speichern</button>
+                </form>
+
+                <div class="delete-box hidden" id="delete-box">
+                    <h2>Card löschen</h2>
+                    <p>Diese Card wirklich löschen?</p>
+                    <button id="btn-confirm-delete" type="button">Löschen</button>
+                    <button id="btn-cancel-delete" type="button">Abbrechen</button>
+                </div>
+            </section>
+        </main>
+    </section>
+
+    <script src="js/model.js"></script>
+    <script src="js/view.js"></script>
+    <script src="js/controller.js"></script>
+</body>
+
+</html>

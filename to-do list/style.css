@@ -1,0 +1,187 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef2f7;
+    color: #172033;
+}
+
+button {
+    cursor: pointer;
+    border: 1px solid #0f766e;
+    border-radius: 4px;
+    padding: 9px 14px;
+    background: #0f766e;
+    color: white;
+}
+
+button:hover {
+    background: #115e59;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 9px;
+    margin: 6px 0 14px;
+    border: 1px solid #b8c2d3;
+    border-radius: 4px;
+    font-family: inherit;
+    color: #172033;
+    background: #ffffff;
+}
+
+textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.login-view {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-box {
+    width: 360px;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 18px rgba(23, 32, 51, 0.10);
+}
+
+.login-box h1 {
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+.header {
+    height: 70px;
+    padding: 0 30px;
+    background: #172033;
+    border-bottom: 1px solid #0f172a;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 24px;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: 220px 1fr 330px;
+    gap: 20px;
+    padding: 20px;
+}
+
+.sidebar,
+.content,
+.side-panel {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    min-height: 600px;
+    border: 1px solid #d7deea;
+    box-shadow: 0 2px 10px rgba(23, 32, 51, 0.05);
+}
+
+.sidebar h2,
+.side-panel h2 {
+    margin-top: 0;
+}
+
+.sidebar button {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.board-box {
+    margin-top: 25px;
+}
+
+.search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    margin: 0;
+}
+
+.search-bar button {
+    width: 110px;
+}
+
+.task-card {
+    border: 1px solid #c9d3e3;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 12px;
+    background: #f8fafc;
+}
+
+.task-card h3 {
+    margin: 0 0 8px;
+}
+
+.task-card p {
+    margin: 0 0 12px;
+    color: #475569;
+}
+
+.card-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.card-buttons button {
+    padding: 7px 10px;
+    font-size: 14px;
+}
+
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+}
+
+.detail-box {
+    line-height: 1.6;
+}
+
+.card-form button,
+.delete-box button {
+    margin-top: 8px;
+    margin-right: 8px;
+}
+
+#btn-login {
+    display: block;
+    margin: 0 auto;
+}
+
+.login-message {
+    min-height: 20px;
+    margin: 16px 0 0;
+    color: #b91c1c;
+    text-align: center;
+}
+
+.login-message.success {
+    color: #166534;
+}
