@@ -110,6 +110,8 @@ async function loadBoard() {
     lists = await AppModel.getLists(boardId);
     cards = await AppModel.getCards(boardId);
 
+    AppView.hideNewCardForm();
+    AppView.showText("Card auswählen");
     currentPage = 1;
     renderCards();
 }
@@ -151,12 +153,16 @@ function nextPage() {
 
 function cardActions() {
     return {
+        details(card) {
+            AppView.showDetails(card, lists);
+        },
+
         save(card, div) {
             saveEdit(card, div);
         },
 
         remove(card) {
-            return removeCard(card);
+            removeCard(card);
         }
     };
 }
@@ -210,6 +216,7 @@ async function saveNewCard(event) {
         currentPage = 1;
         AppView.clearNewCardForm();
         renderCards();
+        AppView.showDetails(newCard, lists);
         AppView.showFeedback("Neue Card gespeichert.");
     } catch (err) {
         console.error(err);
@@ -238,6 +245,7 @@ async function removeCard(card) {
 
 function showOverview() {
     AppView.hideNewCardForm();
+    AppView.showText("Card auswählen");
     renderCards();
 }
 

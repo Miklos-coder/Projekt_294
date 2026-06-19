@@ -90,11 +90,7 @@ View.renderBoards = function (boards) {
     View.boardSelect.innerHTML = "";
 
     boards.forEach(function (board) {
-        const option = document.createElement("option");
-
-        option.value = board.id;
-        option.textContent = board.name;
-        View.boardSelect.appendChild(option);
+        View.boardSelect.innerHTML += `<option value="${board.id}">${board.name}</option>`;
     });
 };
 
@@ -128,6 +124,10 @@ View.renderCards = function (cards, lists, actions) {
             </div>
         `;
 
+        div.addEventListener("click", function () {
+            actions.details(card);
+        });
+
         div.querySelector(".btn-edit").addEventListener("click", function (event) {
             event.stopPropagation();
             div.querySelector(".edit-box").classList.toggle("hidden");
@@ -151,8 +151,14 @@ View.renderCards = function (cards, lists, actions) {
     }
 };
 
-View.hideNewCardForm = function () {
+View.showDetails = function (card, lists) {
     View.cardForm.classList.add("hidden");
+    View.detailBox.innerHTML = `
+        <p><strong>Titel:</strong> ${card.name}</p>
+        <p><strong>Liste:</strong> ${getListName(card.idList, lists)}</p>
+        <p><strong>Beschreibung:</strong> ${card.desc || "Keine Beschreibung"}</p>
+        <p><strong>Fällig:</strong> ${getDate(card.due) || "Kein Datum"}</p>
+    `;
 };
 
 View.showText = function (text) {
@@ -163,6 +169,10 @@ View.showNewCardForm = function (lists) {
     View.cardListSelect.innerHTML = makeListOptions(lists, lists[0] ? lists[0].id : "");
     View.cardForm.classList.remove("hidden");
     View.showText("Neue Card erstellen");
+};
+
+View.hideNewCardForm = function () {
+    View.cardForm.classList.add("hidden");
 };
 
 View.getEditData = function (div) {
