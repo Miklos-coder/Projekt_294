@@ -17,6 +17,10 @@ View.btnNext = document.querySelector("#btn-next");
 View.btnNewCard = document.querySelector("#btn-new-card");
 View.btnOverview = document.querySelector("#btn-overview");
 View.cardForm = document.querySelector("#card-form");
+View.cardTitle = document.querySelector("#card-title");
+View.cardDesc = document.querySelector("#card-desc");
+View.cardListSelect = document.querySelector("#card-list-select");
+View.cardDue = document.querySelector("#card-due");
 View.btnLogout = document.querySelector("#btn-logout");
 View.searchInput = document.querySelector("#search-input");
 View.btnSearch = document.querySelector("#btn-search");
@@ -37,6 +41,14 @@ View.bindSearch = function (handler) {
 View.bindPagination = function (prevHandler, nextHandler) {
     View.btnPrev.addEventListener("click", prevHandler);
     View.btnNext.addEventListener("click", nextHandler);
+};
+
+View.bindNewCard = function (handler) {
+    View.btnNewCard.addEventListener("click", handler);
+};
+
+View.bindSaveNewCard = function (handler) {
+    View.cardForm.addEventListener("submit", handler);
 };
 
 View.bindLogout = function (handler) {
@@ -107,7 +119,24 @@ View.renderCards = function (cards, lists, actions) {
                 <button class="btn-edit" type="button">Edit</button>
                 <button class="btn-delete" type="button">Löschen</button>
             </div>
+            <div class="edit-box hidden">
+                <input class="edit-title" value="${card.name}">
+                <textarea class="edit-desc">${card.desc || ""}</textarea>
+                <select class="edit-list">${makeListOptions(lists, card.idList)}</select>
+                <input class="edit-due" type="date" value="${getDate(card.due)}">
+                <button class="btn-save" type="button">Speichern</button>
+            </div>
         `;
+
+        div.querySelector(".btn-edit").addEventListener("click", function (event) {
+            event.stopPropagation();
+            div.querySelector(".edit-box").classList.toggle("hidden");
+        });
+
+        div.querySelector(".btn-save").addEventListener("click", function (event) {
+            event.stopPropagation();
+            actions.save(card, div);
+        });
 
         div.querySelector(".btn-delete").addEventListener("click", function (event) {
             event.stopPropagation();
@@ -130,6 +159,35 @@ View.showText = function (text) {
     View.detailBox.innerHTML = `<p>${text}</p>`;
 };
 
+View.showNewCardForm = function (lists) {
+    View.cardListSelect.innerHTML = makeListOptions(lists, lists[0] ? lists[0].id : "");
+    View.cardForm.classList.remove("hidden");
+    View.showText("Neue Card erstellen");
+};
+
+View.getEditData = function (div) {
+    return {
+        name: div.querySelector(".edit-title").value.trim(),
+        desc: div.querySelector(".edit-desc").value,
+        idList: div.querySelector(".edit-list").value,
+        due: div.querySelector(".edit-due").value || "null"
+    };
+};
+
+View.getNewCardData = function () {
+    return {
+        name: View.cardTitle.value.trim(),
+        desc: View.cardDesc.value,
+        idList: View.cardListSelect.value,
+        due: View.cardDue.value || "null"
+    };
+};
+
+View.clearNewCardForm = function () {
+    View.cardForm.reset();
+    View.cardForm.classList.add("hidden");
+};
+
 View.showFeedback = function (message) {
     View.pageInfo.textContent = message;
 };
@@ -144,12 +202,27 @@ View.askDelete = function () {
     return confirm("Diese Card wirklich löschen?");
 };
 
+function makeListOptions(lists, selectedId) {
+    let html = "";
+
+    lists.forEach(function (list) {
+        const selected = list.id === selectedId ? "selected" : "";
+        html += `<option value="${list.id}" ${selected}>${list.name}</option>`;
+    });
+
+    return html;
+}
+
 function getListName(listId, lists) {
     const list = lists.find(function (item) {
         return item.id === listId;
     });
 
     return list ? list.name : "";
+}
+
+function getDate(date) {
+    return date ? date.slice(0, 10) : "";
 }
 
 window.view = View;

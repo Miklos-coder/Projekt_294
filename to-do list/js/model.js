@@ -40,6 +40,14 @@ window.model = {
         return await request(`/boards/${boardId}/cards`);
     },
 
+    async updateCard(cardId, data) {
+        return await request(`/cards/${cardId}`, data, "PUT");
+    },
+
+    async createCard(data) {
+        return await request("/cards", data, "POST");
+    },
+
     async deleteCard(cardId) {
         return await request(`/cards/${cardId}`, {}, "DELETE");
     }

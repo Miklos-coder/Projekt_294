@@ -14,6 +14,8 @@ AppView.bindLogin(login);
 AppView.bindBoardChange(loadBoard);
 AppView.bindSearch(searchCards);
 AppView.bindPagination(previousPage, nextPage);
+AppView.bindNewCard(showNewCardForm);
+AppView.bindSaveNewCard(saveNewCard);
 AppView.bindLogout(logout);
 AppView.bindOverview(showOverview);
 
@@ -149,10 +151,70 @@ function nextPage() {
 
 function cardActions() {
     return {
+        save(card, div) {
+            saveEdit(card, div);
+        },
+
         remove(card) {
             return removeCard(card);
         }
     };
+}
+
+async function saveEdit(card, div) {
+    const data = AppView.getEditData(div);
+
+    if (!data.name) {
+        AppView.showFeedback("Titel darf nicht leer sein.");
+        return;
+    }
+
+    try {
+        const savedCard = await AppModel.updateCard(card.id, data);
+
+        cards = cards.map(function (oldCard) {
+            return oldCard.id === savedCard.id ? savedCard : oldCard;
+        });
+
+        renderCards();
+        AppView.showFeedback("Edit gespeichert.");
+    } catch (err) {
+        console.error(err);
+        AppView.showFeedback("Edit konnte nicht gespeichert werden.");
+    }
+}
+
+function showNewCardForm() {
+    if (lists.length === 0) {
+        AppView.showFeedback("Keine Liste für neue Card gefunden.");
+        return;
+    }
+
+    AppView.showNewCardForm(lists);
+}
+
+async function saveNewCard(event) {
+    event.preventDefault();
+
+    const data = AppView.getNewCardData();
+
+    if (!data.name) {
+        AppView.showFeedback("Titel darf nicht leer sein.");
+        return;
+    }
+
+    try {
+        const newCard = await AppModel.createCard(data);
+
+        cards.unshift(newCard);
+        currentPage = 1;
+        AppView.clearNewCardForm();
+        renderCards();
+        AppView.showFeedback("Neue Card gespeichert.");
+    } catch (err) {
+        console.error(err);
+        AppView.showFeedback("Neue Card konnte nicht gespeichert werden.");
+    }
 }
 
 async function removeCard(card) {
